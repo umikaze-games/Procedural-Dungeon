@@ -12,6 +12,8 @@ public class LayoutGeneratorRooms : MonoBehaviour
 	[SerializeField] int roomLengthMin = 3;
 	[SerializeField] int roomLengthMax = 5;
 
+	[SerializeField] GameObject levelLayoutDisplay;
+
 	System.Random random;
 
 	[ContextMenu("Generate Level Layout")]
@@ -20,6 +22,7 @@ public class LayoutGeneratorRooms : MonoBehaviour
 		random = new System.Random();
 		RectInt roomRect = GetStartRoomRect();
 		Debug.Log(roomRect);
+		DrawLayout(roomRect);
 	}
 
 	RectInt GetStartRoomRect()
@@ -35,5 +38,19 @@ public class LayoutGeneratorRooms : MonoBehaviour
 		int roomY = randomY + length / 4;
 
 		return new RectInt(roomX, roomY, roomWidth, roomLength);
+	}
+
+
+	void DrawLayout(RectInt roomCandidateRect = new RectInt())
+	{
+		Renderer renderer = levelLayoutDisplay.GetComponent<Renderer>();
+
+		Texture2D layoutTexture = (Texture2D)renderer.sharedMaterial.mainTexture;
+
+		layoutTexture.Reinitialize(width, length);
+		levelLayoutDisplay.transform.localScale = new Vector3(width, length, 1);
+		layoutTexture.FillWithColor(Color.black);
+		layoutTexture.DrawRectangle(roomCandidateRect, Color.blue);
+		layoutTexture.SaveAsset();
 	}
 }
