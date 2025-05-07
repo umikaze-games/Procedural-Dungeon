@@ -22,6 +22,7 @@ public class LayoutGeneratorRooms : MonoBehaviour
 	{
 		random = new System.Random();
 		openDoorways = new List<Hallway>();
+
 		RectInt roomRect = GetStartRoomRect();
 		Debug.Log(roomRect);
 		Room room = new Room(roomRect);

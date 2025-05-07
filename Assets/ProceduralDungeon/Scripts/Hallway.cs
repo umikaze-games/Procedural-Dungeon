@@ -4,8 +4,8 @@ public class Hallway
 {
 	private Vector2Int startPos;
 	private Vector2Int endPos;
-	private Room startRoom;
-	private Room endRoom;
+	private Room startRoom;//вСоб╫г
+	private Room endRoom;//срио╫г
 
 	public Room StartRoom { get { return startRoom; } set { this.startRoom = value; } }
 	public Room EndRoom { get { return endRoom; } set { this.endRoom = value; } }
