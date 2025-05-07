@@ -10,8 +10,8 @@ public class Hallway
 	public Room StartRoom { get { return startRoom; } set { this.startRoom = value; } }
 	public Room EndRoom { get { return endRoom; } set { this.endRoom = value; } }
 
-	public Vector2Int StartPos { get { return startPos + startRoom.Area.position; } }
-	public Vector2Int EndPos { get { return endPos + endRoom.Area.position; } }
+	public Vector2Int StartPositionAbsolute { get { return startPos + startRoom.Area.position; } }
+	public Vector2Int EndPositionAbsolute { get { return endPos + endRoom.Area.position; } }
 
 	public Hallway(Vector2Int startPos,Room startRoom=null)
 	{
