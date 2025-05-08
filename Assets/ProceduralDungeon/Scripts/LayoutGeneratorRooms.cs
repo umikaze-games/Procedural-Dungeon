@@ -66,7 +66,7 @@ public class LayoutGeneratorRooms : MonoBehaviour
 			layoutTexture.SetPixel(
 				hallway.StartPositionAbsolute.x,
 				hallway.StartPositionAbsolute.y,
-				Color.red
+				hallway.StartDirection.GetColor()
 			);
 		}
 		layoutTexture.SaveAsset();
