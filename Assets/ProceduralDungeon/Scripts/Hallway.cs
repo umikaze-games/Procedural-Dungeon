@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class Hallway
 {
-	private Vector2Int startPos;
-	private Vector2Int endPos;
+	private Vector2Int startPosition;
+	private Vector2Int endPosition;
 
 	private HallwayDirection startDirection;
 	private HallwayDirection endDirection;
@@ -17,13 +17,22 @@ public class Hallway
 	public HallwayDirection StartDirection { get { return startDirection; } }
 	public HallwayDirection EndDirection { get { return endDirection; } set {endDirection=value; } }
 
-	public Vector2Int StartPositionAbsolute { get { return startPos + startRoom.Area.position; } }
-	public Vector2Int EndPositionAbsolute { get { return endPos + endRoom.Area.position; } }
+	public Vector2Int StartPositionAbsolute { get { return startPosition + startRoom.Area.position; } }
+	public Vector2Int EndPositionAbsolute { get { return endPosition + endRoom.Area.position; } }
 
+	public Vector2Int StartPosition {
+		get => startPosition;
+		set => startPosition = value;
+	}
+	public Vector2Int EndPosition
+	{
+		get => endPosition;
+		set => endPosition = value;
+	}
 	public Hallway(HallwayDirection startDirection, Vector2Int startPos,Room startRoom=null)
 	{
 		this.startDirection = startDirection;
-		this.startPos = startPos;
+		this.startPosition = startPos;
 		this.startRoom = startRoom;
 	}
 }
