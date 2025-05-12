@@ -455,18 +455,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7ff9db160564c04c927f80a9c54fa25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  width: 64
-  length: 64
-  seed: 1312172828
-  roomWidthMin: 3
-  roomWidthMax: 10
-  roomLengthMin: 3
-  roomLengthMax: 10
-  doorDistanceFromEdge: 1
-  minHallwayLength: 1
-  maxHallwayLength: 5
-  maxRoomCount: 30
-  minRoomDistance: 1
+  levelConfig: {fileID: 11400000, guid: 9a95db15b39306e4cb91635d5afba05f, type: 2}
+  seed: 1312526703
   levelLayoutDisplay: {fileID: 1841281325}
 --- !u!4 &1077639603
 Transform:
