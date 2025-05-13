@@ -14,14 +14,22 @@ public class LayoutGeneratorRooms : MonoBehaviour
 
 	Random random;
     Level level;
+	
+    Dictionary<RoomTemplate, int> availableRooms;
 
-    [ContextMenu("Generate Level Layout")]
+	[ContextMenu("Generate Level Layout")]
     public void GenerateLevel() {
         random = new Random(seed);
-        openDoorways = new List<Hallway>();
+		availableRooms = levelConfig.GetAvailableRooms();
+
+		openDoorways = new List<Hallway>();
         level = new Level(levelConfig.Width, levelConfig.Length);
-        RectInt roomRect = GetStartRoomRect();
-        Debug.Log(roomRect);
+        //RectInt roomRect = GetStartRoomRect();
+		
+        RoomTemplate startRoomTemplate = availableRooms.Keys.ElementAt(random.Next(0, availableRooms.Count));
+		RectInt roomRect = GetStartRoomRect(startRoomTemplate);
+
+		Debug.Log(roomRect);
         Room room = new Room(roomRect);
         List<Hallway> hallways = room.CalculateAllPossibleDoorways(room.Area.width, room.Area.height, levelConfig.DoorDistanceFromEdge);
         hallways.ForEach (h => h.StartRoom = room);
@@ -46,13 +54,14 @@ public class LayoutGeneratorRooms : MonoBehaviour
 		GenerateLevel();
 	}
 
-	RectInt GetStartRoomRect() {
-        int roomWidth = random.Next(levelConfig.RoomWidthMin, levelConfig.RoomWidthMax);
+	RectInt GetStartRoomRect(RoomTemplate roomTemplate)
+	{
+		int roomWidth = random.Next(roomTemplate.RoomWidthMin, roomTemplate.RoomWidthMax);
         int availableWidthX = levelConfig.Width / 2 - roomWidth;
         int randomX = random.Next(0, availableWidthX);
         int roomX = randomX + levelConfig.Width / 4;
 
-        int roomLength = random.Next(levelConfig.RoomLengthMin, levelConfig.RoomLengthMax);
+        int roomLength = random.Next(roomTemplate.RoomLengthMin, roomTemplate.RoomLengthMax);
         int availableLengthY = levelConfig.Length / 2 - roomLength;
         int randomY = random.Next(0, availableLengthY);
 		int roomY = randomY + levelConfig.Length / 4;
@@ -121,10 +130,11 @@ public class LayoutGeneratorRooms : MonoBehaviour
 
     Room ConstructAdjacentRoom(Hallway selectedEntryway)
     {
-        RectInt roomCandidateRect = new RectInt {
-            width = random.Next(levelConfig.RoomWidthMin, levelConfig.RoomWidthMax), 
-            height = random.Next(levelConfig.RoomLengthMin, levelConfig.RoomLengthMax) 
-        };
+		RoomTemplate roomTemplate = availableRooms.Keys.ElementAt(random.Next(0, availableRooms.Count));
+		RectInt roomCandidateRect = new RectInt {
+			width = random.Next(roomTemplate.RoomWidthMin, roomTemplate.RoomWidthMax),
+			height = random.Next(roomTemplate.RoomLengthMin, roomTemplate.RoomLengthMax)
+		};
 
         Hallway selectedExit = SelectHallwayCandidate(roomCandidateRect, selectedEntryway);
         if (selectedExit == null) { return null; }
