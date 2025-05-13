@@ -17,18 +17,24 @@ MonoBehaviour:
   doorDistanceFromEdge: 1
   minHallwayLength: 3
   maxHallwayLength: 5
-  maxRoomCount: 20
+  maxRoomCount: 100
   minRoomDistance: 1
   roomTemplates:
   - name: SmallRoom
-    numberOfRooms: 10
+    numberOfRooms: 20
     roomWidthMin: 3
     roomWidthMax: 5
     roomLengthMin: 3
     roomLengthMax: 5
+  - name: MiddleRoom
+    numberOfRooms: 10
+    roomWidthMin: 5
+    roomWidthMax: 10
+    roomLengthMin: 5
+    roomLengthMax: 10
   - name: LargeRoom
-    numberOfRooms: 4
-    roomWidthMin: 15
-    roomWidthMax: 30
-    roomLengthMin: 15
-    roomLengthMax: 30
+    numberOfRooms: 1
+    roomWidthMin: 20
+    roomWidthMax: 20
+    roomLengthMin: 20
+    roomLengthMax: 20
