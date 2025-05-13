@@ -24,9 +24,9 @@ public class LayoutGeneratorRooms : MonoBehaviour
 
 		openDoorways = new List<Hallway>();
         level = new Level(levelConfig.Width, levelConfig.Length);
-        //RectInt roomRect = GetStartRoomRect();
 		
         RoomTemplate startRoomTemplate = availableRooms.Keys.ElementAt(random.Next(0, availableRooms.Count));
+		UseUpRoomTemplate(startRoomTemplate);
 		RectInt roomRect = GetStartRoomRect(startRoomTemplate);
 
 		Debug.Log(roomRect);
@@ -146,8 +146,8 @@ public class LayoutGeneratorRooms : MonoBehaviour
         {
             return null;
         }
-
-        Room newRoom = new Room(roomCandidateRect);
+		UseUpRoomTemplate(roomTemplate);
+		Room newRoom = new Room(roomCandidateRect);
         selectedEntryway.EndRoom = newRoom;
         selectedEntryway.EndPosition = selectedExit.StartPosition;
         return newRoom;
@@ -192,7 +192,7 @@ public class LayoutGeneratorRooms : MonoBehaviour
 
     void AddRooms()
     {
-        while (openDoorways.Count > 0 && level.Rooms.Length < levelConfig.MaxRoomCount)
+        while (openDoorways.Count > 0 && level.Rooms.Length < levelConfig.MaxRoomCount && availableRooms.Count > 0)
         {
             Hallway selectedEntryway = openDoorways[random.Next(0, openDoorways.Count)];
             Room newRoom = ConstructAdjacentRoom(selectedEntryway);
@@ -214,5 +214,13 @@ public class LayoutGeneratorRooms : MonoBehaviour
             openDoorways.AddRange(newOpenHallways);
         }
     }
+	private void UseUpRoomTemplate(RoomTemplate roomTemplate)
+	{
+		availableRooms[roomTemplate] -= 1;
+		if (availableRooms[roomTemplate] == 0)
+		{
+			availableRooms.Remove(roomTemplate);
+		}
+	}
 
 }

@@ -23,12 +23,12 @@ MonoBehaviour:
   - name: SmallRoom
     numberOfRooms: 10
     roomWidthMin: 3
-    roomWidthMax: 10
+    roomWidthMax: 5
     roomLengthMin: 3
-    roomLengthMax: 10
+    roomLengthMax: 5
   - name: LargeRoom
     numberOfRooms: 4
-    roomWidthMin: 20
+    roomWidthMin: 15
     roomWidthMax: 30
-    roomLengthMin: 20
+    roomLengthMin: 15
     roomLengthMax: 30
