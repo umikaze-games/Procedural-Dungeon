@@ -36,4 +36,5 @@ public class RoomTemplate
 		return roomCandidateRect;
 	}
 
+
 }
