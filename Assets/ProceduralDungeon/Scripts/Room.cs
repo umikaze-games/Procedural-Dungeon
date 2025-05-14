@@ -6,8 +6,15 @@ public class Room
     private RectInt area;
 	//RectInt(Vector2Int position, Vector2Int size);width height
 	public RectInt Area  { get { return area; } }
+	public Texture2D LayoutTexture { get; }
 
-    public Room( RectInt area) { this.area = area; }
+	public Room( RectInt area) { this.area = area; }
+
+	public Room(int x, int y, Texture2D layoutTexture)
+	{
+		area = new RectInt(x, y, layoutTexture.width, layoutTexture.height);
+		LayoutTexture = layoutTexture;
+	}
 
 	public List<Hallway> CalculateAllPossibleDoorways(int width, int length, int minDistanceFromEdge)
 	{
