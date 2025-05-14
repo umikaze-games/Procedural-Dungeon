@@ -106,10 +106,10 @@ public class LayoutGeneratorRooms : MonoBehaviour
         layoutTexture.SaveAsset();
     }
 
-    Hallway SelectHallwayCandidate(RectInt roomCandidateRect, Hallway entryway)
-    {
-        Room room = new Room(roomCandidateRect);
-        List<Hallway> candidates = room.CalculateAllPossibleDoorways(room.Area.width, room.Area.height, levelConfig.DoorDistanceFromEdge);
+	Hallway SelectHallwayCandidate(RectInt roomCandidateRect, RoomTemplate roomTemplate, Hallway entryway)
+	{
+		Room room = CreateNewRoom(roomCandidateRect, roomTemplate, false);
+		List<Hallway> candidates = room.CalculateAllPossibleDoorways(room.Area.width, room.Area.height, levelConfig.DoorDistanceFromEdge);
         HallwayDirection requiredDirection = entryway.StartDirection.GetOppositeDirection();
         List<Hallway> filteredHallwayCandidates = candidates.Where(hc => hc.StartDirection == requiredDirection).ToList();
         return filteredHallwayCandidates.Count > 0 ? filteredHallwayCandidates[random.Next(filteredHallwayCandidates.Count)] : null;
@@ -143,11 +143,11 @@ public class LayoutGeneratorRooms : MonoBehaviour
 		RoomTemplate roomTemplate = availableRooms.Keys.ElementAt(random.Next(0, availableRooms.Count));
 		RectInt roomCandidateRect = roomTemplate.GenerateRoomCandidateRect(random);
 
-		Hallway selectedExit = SelectHallwayCandidate(roomCandidateRect, selectedEntryway);
-        if (selectedExit == null) { return null; }
+		Hallway selectedExit = SelectHallwayCandidate(roomCandidateRect, roomTemplate, selectedEntryway);
+		if (selectedExit == null) { return null; }
         int distance = random.Next(levelConfig.MinHallwayLength, levelConfig.MaxHallwayLength + 1);
-        Vector2Int roomCandidatePosition = CalculateRoomPosition(selectedEntryway, roomCandidateRect.width, roomCandidateRect.height, distance, selectedExit.StartPosition);
-        roomCandidateRect.position = roomCandidatePosition;
+		Vector2Int roomCandidatePosition = CalculateRoomPosition(selectedEntryway, roomCandidateRect.width, roomCandidateRect.height, distance, selectedExit.StartPosition);
+		roomCandidateRect.position = roomCandidatePosition;
 
         if (!IsRoomCandidateValid(roomCandidateRect))
         {
@@ -229,9 +229,12 @@ public class LayoutGeneratorRooms : MonoBehaviour
 			availableRooms.Remove(roomTemplate);
 		}
 	}
-	Room CreateNewRoom(RectInt roomCandidateRect, RoomTemplate roomTemplate)
+	Room CreateNewRoom(RectInt roomCandidateRect, RoomTemplate roomTemplate, bool useUp = true)
 	{
-		UseUpRoomTemplate(roomTemplate);
+		if (useUp)
+		{
+			UseUpRoomTemplate(roomTemplate);
+		}
 		if (roomTemplate.LayoutTexture == null)
 		{
 			return new Room(roomCandidateRect);
@@ -241,5 +244,6 @@ public class LayoutGeneratorRooms : MonoBehaviour
 			return new Room(roomCandidateRect.x, roomCandidateRect.y, roomTemplate.LayoutTexture);
 		}
 	}
+
 
 }
