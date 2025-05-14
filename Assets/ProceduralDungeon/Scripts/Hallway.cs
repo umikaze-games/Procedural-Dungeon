@@ -8,9 +8,8 @@ public class Hallway
 	private HallwayDirection startDirection;
 	private HallwayDirection endDirection;
 
-	private Room startRoom;//×óÏÂ½Ç
-	private Room endRoom;//ÓÒÉÏ½Ç
-
+	private Room startRoom;
+	private Room endRoom;
 	public Room StartRoom { get { return startRoom; } set { this.startRoom = value; } }
 	public Room EndRoom { get { return endRoom; } set { this.endRoom = value; } }
 
@@ -29,7 +28,6 @@ public class Hallway
 		get => endPosition;
 		set => endPosition = value;
 	}
-
 	public RectInt Area
 	{
 		get
@@ -51,7 +49,6 @@ public class Hallway
 			return new RectInt(x, y, width, height);
 		}
 	}
-
 	public Hallway(HallwayDirection startDirection, Vector2Int startPos,Room startRoom=null)
 	{
 		this.startDirection = startDirection;
