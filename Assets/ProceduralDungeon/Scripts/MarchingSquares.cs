@@ -5,22 +5,29 @@ using UnityEngine;
 public class MarchingSquares : MonoBehaviour
 {
 	[SerializeField] Texture2D levelTexture;
+	[SerializeField] GameObject generatedLevel;
+	[SerializeField] Tileset tileset;
+	[SerializeField] int scale = 1;
 
 	[ContextMenu("Create Level Geometry")]
 	public void CreateLevelGeometry()
 	{
+		generatedLevel.transform.DestroyAllChildren();
+		Vector3 scaleVector = new Vector3(scale, scale, scale);
 		TextureBasedLevel level = new TextureBasedLevel(levelTexture);
 		for (int y = 0; y < level.Length - 1; y++)
 		{
-			string line = "";
 			for (int x = 0; x < level.Width - 1; x++)
 			{
-				//line += level.IsBlocked(x, y) ? "O" : " ";
 				int tileIndex = CalculateTileIndex(level, x, y);
-				line += tileIndex.ToString("00") + " ";
-
+				GameObject tile = tileset.GetTile(tileIndex);
+				if (tile == null) continue;
+				GameObject.Instantiate(tile, generatedLevel.transform);
+				tile.transform.localScale = scaleVector;
+				tile.transform.position = new Vector3(x * scale, 0, y * scale);
+				string name = "x" + x + "y" + y + "tileIndex" + tileIndex;
+				tile.name = name;
 			}
-			Debug.Log(line);
 		}
 	}
 	int CalculateTileIndex(ILevel level, int x, int y)
