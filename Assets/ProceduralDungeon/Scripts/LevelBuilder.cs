@@ -1,9 +1,11 @@
 using UnityEngine;
+using Unity.AI.Navigation;
 
 public class LevelBuilder : MonoBehaviour
 {
 	[SerializeField] LayoutGeneratorRooms layoutGeneratorRooms;
 	[SerializeField] MarchingSquares marchingSquares;
+	[SerializeField] NavMeshSurface navMeshSurface;
 
 	void Start()
 	{
@@ -22,5 +24,6 @@ public class LevelBuilder : MonoBehaviour
 	{
 		layoutGeneratorRooms.GenerateLevel();
 		marchingSquares.CreateLevelGeometry();
+		navMeshSurface.BuildNavMesh();
 	}
 }
