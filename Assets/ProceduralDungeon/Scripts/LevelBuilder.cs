@@ -1,5 +1,6 @@
 using UnityEngine;
 using Unity.AI.Navigation;
+using UnityEngine.AI;
 
 public class LevelBuilder : MonoBehaviour
 {
@@ -30,7 +31,17 @@ public class LevelBuilder : MonoBehaviour
 		Vector3 playerPosition = LevelPositionToWorldPosition(roomCenter);
 
 		GameObject player = GameObject.FindGameObjectWithTag("Player");
-		player.transform.position = playerPosition;
+		NavMeshAgent playerNavMeshAgent = player.GetComponent<NavMeshAgent>();
+
+		if (playerNavMeshAgent == null)
+		{
+			player.transform.position = playerPosition;
+		}
+
+		else
+		{
+			playerNavMeshAgent.Warp(playerPosition);
+		}
 
 	}
 	Vector3 LevelPositionToWorldPosition(Vector2 levelPosition)
