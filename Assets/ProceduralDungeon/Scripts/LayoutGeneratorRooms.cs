@@ -17,7 +17,7 @@ public class LayoutGeneratorRooms : MonoBehaviour
     Dictionary<RoomTemplate, int> availableRooms;
 
 	[ContextMenu("Generate Level Layout")]
-    public void GenerateLevel() {
+    public Level GenerateLevel() {
         SharedLevelData.Instance.ResetRandom();
         random = SharedLevelData.Instance.Rand;
 		availableRooms = levelConfig.GetAvailableRooms();
@@ -36,7 +36,13 @@ public class LayoutGeneratorRooms : MonoBehaviour
         Hallway selectedEntryway = openDoorways[random.Next(0, openDoorways.Count)];
         AddRooms();
         DrawLayout(selectedEntryway, roomRect);
-    }
+		int startRoomIndex = random.Next(0, level.Rooms.Length);
+		Room randomStartRoom = level.Rooms[startRoomIndex];
+		level.PlayerStartRoom = randomStartRoom;
+
+		return level;
+
+	}
 
 	[ContextMenu("Generate new Seed")]
 	public void GenerateNewSeed()

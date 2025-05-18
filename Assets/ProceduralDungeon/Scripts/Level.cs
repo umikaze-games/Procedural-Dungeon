@@ -14,6 +14,7 @@ public class Level
 	public int Length => length;
 	public Room[] Rooms => rooms.ToArray();
 	public Hallway[] Hallways => hallways.ToArray();
+	public Room PlayerStartRoom { get; set; }
 
 	public Level(int width,int length)
 	{
