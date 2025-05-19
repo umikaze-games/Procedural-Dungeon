@@ -5,6 +5,8 @@ public class RoomDecorator : MonoBehaviour
 {
 	[SerializeField] GameObject parent;
 	[SerializeField] LayoutGeneratorRooms layoutGenerator;
+	[SerializeField] Texture2D levelTexture;
+	[SerializeField] Texture2D decoratedTexture;
 
 	Random random;
 
@@ -31,8 +33,52 @@ public class RoomDecorator : MonoBehaviour
 		{
 			decorationsTransform.DestroyAllChildren();
 		}
-		GameObject testGameObject = new GameObject("Test Child");
-		testGameObject.transform.SetParent(decorationsTransform);
+		TileType[,] levelDecorated = InitializeDecoratorArray(level);
+		GenerateTextureFromTileType(levelDecorated);
+	}
+
+	private TileType[,] InitializeDecoratorArray(Level level)
+	{
+		TextureBasedLevel textureBasedLevel = new TextureBasedLevel(levelTexture);
+		TileType[,] levelDecorated = new TileType[level.Width, level.Length];
+		for (int y = 0; y < level.Length; y++)
+		{
+			for (int x = 0; x < level.Width; x++)
+			{
+				bool isBlocked = textureBasedLevel.IsBlocked(x, y);
+				if (isBlocked)
+				{
+					levelDecorated[x, y] = TileType.Wall;
+				}
+				else
+				{
+					levelDecorated[x, y] = TileType.Floor;
+				}
+			}
+		}
+		return levelDecorated;
+	}
+
+	private void GenerateTextureFromTileType(TileType[,] tileTypes)
+	{
+		int width = tileTypes.GetLength(0);
+		int length = tileTypes.GetLength(1);
+
+		Color32[] pixels = new Color32[width * length];
+
+		for (int y = 0; y < length; y++)
+		{
+			for (int x = 0; x < width; x++)
+			{
+				pixels[x + y * width] = tileTypes[x, y].GetColor();
+			}
+		}
+
+		decoratedTexture.Reinitialize(width, length);
+		decoratedTexture.SetPixels32(pixels);
+		decoratedTexture.Apply();
+		decoratedTexture.SaveAsset();
+
 	}
 
 }
