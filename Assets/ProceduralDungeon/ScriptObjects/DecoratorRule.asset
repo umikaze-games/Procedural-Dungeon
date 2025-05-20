@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be96c26be0325e8459e5b137dcae5b99, type: 3}
+  m_Name: DecoratorRule
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 0}
+  placement:
+    array: 02000000020000000200000002000000
+    width: 2
+    height: 2
+  fill:
+    array: 
+    width: 0
+    height: 0
