@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: be96c26be0325e8459e5b137dcae5b99, type: 3}
-  m_Name: CornerDecoratorRule
+  m_Name: CornerrRule
   m_EditorClassIdentifier: 
   prefab: {fileID: 0}
   placement:
