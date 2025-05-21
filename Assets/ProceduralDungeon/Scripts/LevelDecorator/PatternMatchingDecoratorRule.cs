@@ -22,6 +22,19 @@ public class PatternMatchingDecoratorRule : BaseDecoratorRule
 
 	internal override void Apply(TileType[,] levelDecorated, Room room, Transform parent)
 	{
+		Vector2Int[] occurrences = FindOccurrences(levelDecorated, room);
+		if (occurrences.Length == 0) { return; }
+		Random random = SharedLevelData.Instance.Rand;
+		int occurrenceIndex = random.Next(0, occurrences.Length);
+		Vector2Int occurrence = occurrences[occurrenceIndex];
+		for (int y = 0; y < placement.Height; y++)
+		{
+			for (int x = 0; x < placement.Width; x++)
+			{
+				TileType tileType = fill[x, y];
+				levelDecorated[occurrence.x + x, occurrence.y + y] = tileType;
+			}
+		}
 
 	}
 
@@ -35,7 +48,6 @@ public class PatternMatchingDecoratorRule : BaseDecoratorRule
 				if (IsPatternAtPosition(levelDecorated, placement, x, y))
 				{
 					occurrences.Add(new Vector2Int(x, y));
-					levelDecorated[x, y] = TileType.Item;
 				}
 			}
 		}
