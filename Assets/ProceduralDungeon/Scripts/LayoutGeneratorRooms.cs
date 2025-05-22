@@ -81,8 +81,15 @@ public class LayoutGeneratorRooms : MonoBehaviour
         Texture2D layoutTexture = (Texture2D) renderer.sharedMaterial.mainTexture;
 
         layoutTexture.Reinitialize(levelConfig.Width, levelConfig.Length);
-        levelLayoutDisplay.transform.localScale = new Vector3(levelConfig.Width, levelConfig.Length, 1);
-        layoutTexture.FillWithColor(Color.black);
+
+		int scale = SharedLevelData.Instance.Scale;
+		levelLayoutDisplay.transform.localScale = new Vector3(level.Width * scale, level.Length * scale, 1);
+		float xPos = level.Width * scale / 2.0f - scale;
+		float zPos = level.Length * scale / 2.0f - scale;
+		Vector3 levelCenterPosition = new Vector3(xPos, 0.1f, zPos);
+		levelLayoutDisplay.transform.position = levelCenterPosition;
+
+		layoutTexture.FillWithColor(Color.black);
 
 		foreach (Room room in level.Rooms)
 		{

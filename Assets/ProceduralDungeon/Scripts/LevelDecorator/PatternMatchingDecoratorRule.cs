@@ -36,6 +36,11 @@ public class PatternMatchingDecoratorRule : BaseDecoratorRule
 			}
 		}
 
+		GameObject decoration = Instantiate(prefab, parent.transform);
+		Vector3 center = new Vector3(occurrence.x + placement.Width / 2.0f, 0, occurrence.y + placement.Height / 2.0f);
+		int scale = SharedLevelData.Instance.Scale;
+		decoration.transform.position = (center + new Vector3(-1, 0, -1)) * scale;
+		decoration.transform.localScale = Vector3.one * scale;
 	}
 
 	private Vector2Int[] FindOccurrences(TileType[,] levelDecorated, Room room)
