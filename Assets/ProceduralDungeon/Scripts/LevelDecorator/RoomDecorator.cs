@@ -66,14 +66,25 @@ public class RoomDecorator : MonoBehaviour
 	}
 	void DecorateRoom(TileType[,] levelDecorated, Room room, Transform decorationTransform)
 	{
-		int selectedRuleIndex = random.Next(0, availableRules.Length);
-		BaseDecoratorRule selectedRule = availableRules[selectedRuleIndex];
+		int currentTries = 0;
+		int maxTries = 50;
 
-		if (selectedRule.CanBeApplied(levelDecorated, room))
+		int currentNumberOfDecorations = 0;
+		int maxNumberOfDecorations = room.Area.width * room.Area.height * 4;
+
+		while (currentNumberOfDecorations < maxNumberOfDecorations && currentTries < maxTries && availableRules.Length > 0)
 		{
-			selectedRule.Apply(levelDecorated, room, decorationTransform);
+			int selectedRuleIndex = random.Next(0, availableRules.Length);
+			BaseDecoratorRule selectedRule = availableRules[selectedRuleIndex];
+			if (selectedRule.CanBeApplied(levelDecorated, room))
+			{
+				selectedRule.Apply(levelDecorated, room, decorationTransform);
+				currentNumberOfDecorations++;
+			}
+			currentTries++;
 		}
 	}
+
 
 	private void GenerateTextureFromTileType(TileType[,] tileTypes)
 	{

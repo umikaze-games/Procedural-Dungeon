@@ -4,12 +4,14 @@ using UnityEngine;
 using Random = System.Random;
 
 [Serializable]
-[CreateAssetMenu(fileName = "DecoratorRule", menuName = "Custom/Procedural Generation/Pattern Decorator Rule")]
+[CreateAssetMenu(fileName = "DecoratorRule", menuName = "Custom/Procedual Generation/Pattern Decorator Rule")]
 public class PatternMatchingDecoratorRule : BaseDecoratorRule
 {
 	[SerializeField] GameObject prefab;
 	[SerializeField] Array2DWrapper<TileType> placement;
 	[SerializeField] Array2DWrapper<TileType> fill;
+	[SerializeField] bool centerHorizontally = false;
+	[SerializeField] bool centerVertically = false;
 
 	internal override bool CanBeApplied(TileType[,] levelDecorated, Room room)
 	{
@@ -46,10 +48,22 @@ public class PatternMatchingDecoratorRule : BaseDecoratorRule
 	private Vector2Int[] FindOccurrences(TileType[,] levelDecorated, Room room)
 	{
 		List<Vector2Int> occurrences = new List<Vector2Int>();
+		int centerX = room.Area.position.x + room.Area.width / 2 - placement.Width / 2;
+		int centerY = room.Area.position.y + room.Area.height / 2 - placement.Height / 2;
+
 		for (int y = room.Area.position.y - 1; y < room.Area.position.y + room.Area.height + 2 - placement.Height; y++)
 		{
 			for (int x = room.Area.position.x - 1; x < room.Area.position.x + room.Area.width + 2 - placement.Width; x++)
 			{
+				if (centerHorizontally && x != centerX)
+				{
+					continue;
+				}
+				if (centerVertically && y != centerY)
+				{
+					continue;
+				}
+
 				if (IsPatternAtPosition(levelDecorated, placement, x, y))
 				{
 					occurrences.Add(new Vector2Int(x, y));
