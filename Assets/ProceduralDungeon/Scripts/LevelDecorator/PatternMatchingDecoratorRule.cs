@@ -7,6 +7,7 @@ using Random = System.Random;
 [CreateAssetMenu(fileName = "DecoratorRule", menuName = "Custom/Procedual Generation/Pattern Decorator Rule")]
 public class PatternMatchingDecoratorRule : BaseDecoratorRule
 {
+	[SerializeField] float prefabRotation = 0;
 	[SerializeField] GameObject prefab;
 	[SerializeField] Array2DWrapper<TileType> placement;
 	[SerializeField] Array2DWrapper<TileType> fill;
@@ -39,6 +40,9 @@ public class PatternMatchingDecoratorRule : BaseDecoratorRule
 		}
 
 		GameObject decoration = Instantiate(prefab, parent.transform);
+		Vector3 currentRotation = decoration.transform.eulerAngles;
+		decoration.transform.eulerAngles = currentRotation + new Vector3(0, prefabRotation, 0);
+
 		Vector3 center = new Vector3(occurrence.x + placement.Width / 2.0f, 0, occurrence.y + placement.Height / 2.0f);
 		int scale = SharedLevelData.Instance.Scale;
 		decoration.transform.position = (center + new Vector3(-1, 0, -1)) * scale;
