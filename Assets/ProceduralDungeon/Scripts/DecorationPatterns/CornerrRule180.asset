@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be96c26be0325e8459e5b137dcae5b99, type: 3}
+  m_Name: CornerrRule180
+  m_EditorClassIdentifier: 
+  prefabRotation: 180
+  prefab: {fileID: 4259432293706936071, guid: d9b94857ce5d3224a95b3d86835852f1, type: 3}
+  placement:
+    array: 02000000040000000400000004000000
+    width: 2
+    height: 2
+  fill:
+    array: 03000000020000000400000004000000
+    width: 2
+    height: 2
+  centerHorizontally: 0
+  centerVertically: 0

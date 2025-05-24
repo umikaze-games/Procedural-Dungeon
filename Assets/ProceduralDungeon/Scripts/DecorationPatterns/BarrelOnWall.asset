@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be96c26be0325e8459e5b137dcae5b99, type: 3}
+  m_Name: BarrelOnWall
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 6086789467937442531, guid: 989bb8b9124605245aadcf2cd446c2a4, type: 3}
+  placement:
+    array: 040000000400000004000000020000000200000002000000
+    width: 3
+    height: 2
+  fill:
+    array: 040000000400000004000000020000000600000002000000
+    width: 3
+    height: 2
+  centerHorizontally: 0
+  centerVertically: 0
