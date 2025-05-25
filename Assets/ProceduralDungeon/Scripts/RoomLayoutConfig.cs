@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-[CreateAssetMenu(fileName ="Room Level Layout",menuName ="Custom/Procedual Generation/RoomLevelLayoutConfig")]
+[CreateAssetMenu(fileName ="Room Level Layout",menuName ="Custom/Procedural Generation/RoomLevelLayoutConfig")]
 public class RoomLayoutConfig : ScriptableObject
 {
 	[SerializeField] int width = 64;

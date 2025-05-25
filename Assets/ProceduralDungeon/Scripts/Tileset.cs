@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName ="Tileset",menuName ="Custom/Procedual Generation/Tileset")]
+[CreateAssetMenu(fileName ="Tileset",menuName ="Custom/Procedural Generation/Tileset")]
 public class Tileset : ScriptableObject
 {
 	[SerializeField]
