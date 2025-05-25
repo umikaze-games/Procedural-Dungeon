@@ -4,7 +4,7 @@ using UnityEngine;
 using Random = System.Random;
 
 [Serializable]
-[CreateAssetMenu(fileName = "DecoratorRule", menuName = "Custom/Procedual Generation/Pattern Decorator Rule")]
+[CreateAssetMenu(fileName = "DecoratorRule", menuName = "Custom/Procedural Generation/Pattern Decorator Rule")]
 public class PatternMatchingDecoratorRule : BaseDecoratorRule
 {
 	[SerializeField] float prefabRotation = 0;
