@@ -1,6 +1,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Flags = System.FlagsAttribute;
+
+[Flags]
+public enum RoomType
+{
+	Default = 1,
+	Start = 1 << 1,
+	Exit = 1 << 2,
+	Boss = 1 << 3,
+	Treasure = 1 << 4,
+	Prison = 1 << 5,
+	Library = 1 << 6,
+	Kitchen = 1 << 7
+}
 
 public class Room 
 {
