@@ -57,6 +57,27 @@ public class LayoutGeneratorRooms : MonoBehaviour
 			.FirstOrDefault();
 		farthestRoom.Type = RoomType.Exit;
 		borderRooms.Remove(farthestRoom);
+		List<Room> treasureRooms = borderRooms.OrderBy(r => random.Next()).Take(3).ToList();
+		borderRooms.RemoveAll(room => treasureRooms.Contains(room));
+		treasureRooms.ForEach(room => room.Type = RoomType.Treasure);
+
+		List<Room> emptyRooms = level.Rooms.Where(room => room.Type.HasFlag(RoomType.Default)).ToList();
+		Room bossRoom = emptyRooms
+			.OrderByDescending(room => Vector2.Distance(randomStartRoom.Area.center, room.Area.center))
+			.OrderByDescending(room => room.Connectedness)
+			.OrderByDescending(room => room.Area.width * room.Area.height)
+			.FirstOrDefault();
+		bossRoom.Type = RoomType.Boss;
+		emptyRooms.Remove(bossRoom);
+
+		emptyRooms = emptyRooms.OrderBy(room => random.Next()).ToList();
+		RoomType[] typesToAssign = { RoomType.Prison, RoomType.Library, RoomType.Kitchen };
+		List<Room> roomsToAssign = emptyRooms.Take(typesToAssign.Length).ToList();
+		for (int i = 0; i < roomsToAssign.Count; i++)
+		{
+			roomsToAssign[i].Type = typesToAssign[i];
+		}
+
 	}
 
 	[ContextMenu("Generate new Seed")]
