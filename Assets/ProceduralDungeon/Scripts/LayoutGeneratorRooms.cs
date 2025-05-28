@@ -35,12 +35,48 @@ public class LayoutGeneratorRooms : MonoBehaviour
 
         Hallway selectedEntryway = openDoorways[random.Next(0, openDoorways.Count)];
         AddRooms();
-        DrawLayout(selectedEntryway, roomRect);
-		int startRoomIndex = random.Next(0, level.Rooms.Length);
-		Room randomStartRoom = level.Rooms[startRoomIndex];
-		level.PlayerStartRoom = randomStartRoom;
-
+		AddHallwaysToRooms();
+		AssignRoomTypes();
+		DrawLayout(selectedEntryway, roomRect);
 		return level;
+	}
+	private void AssignRoomTypes()
+	{
+		List<Room> borderRooms = level.Rooms.Where(room => room.Connectedness == 1).ToList();
+		if (borderRooms.Count < 2)
+		{
+			return;
+		}
+		int startRoomIndex = random.Next(0, borderRooms.Count);
+		Room randomStartRoom = borderRooms[startRoomIndex];
+		level.PlayerStartRoom = randomStartRoom;
+		randomStartRoom.Type = RoomType.Start;
+		borderRooms.Remove(randomStartRoom);
+		Room farthestRoom = borderRooms
+			.OrderByDescending(room => Vector2.Distance(randomStartRoom.Area.center, room.Area.center))
+			.FirstOrDefault();
+		farthestRoom.Type = RoomType.Exit;
+		borderRooms.Remove(farthestRoom);
+		List<Room> treasureRooms = borderRooms.OrderBy(r => random.Next()).Take(3).ToList();
+		borderRooms.RemoveAll(room => treasureRooms.Contains(room));
+		treasureRooms.ForEach(room => room.Type = RoomType.Treasure);
+
+		List<Room> emptyRooms = level.Rooms.Where(room => room.Type.HasFlag(RoomType.Default)).ToList();
+		Room bossRoom = emptyRooms
+			.OrderByDescending(room => Vector2.Distance(randomStartRoom.Area.center, room.Area.center))
+			.OrderByDescending(room => room.Connectedness)
+			.OrderByDescending(room => room.Area.width * room.Area.height)
+			.FirstOrDefault();
+		bossRoom.Type = RoomType.Boss;
+		emptyRooms.Remove(bossRoom);
+
+		emptyRooms = emptyRooms.OrderBy(room => random.Next()).ToList();
+		RoomType[] typesToAssign = { RoomType.Prison, RoomType.Library, RoomType.Kitchen };
+		List<Room> roomsToAssign = emptyRooms.Take(typesToAssign.Length).ToList();
+		for (int i = 0; i < roomsToAssign.Count; i++)
+		{
+			roomsToAssign[i].Type = typesToAssign[i];
+		}
 
 	}
 
@@ -101,6 +137,7 @@ public class LayoutGeneratorRooms : MonoBehaviour
 			{
 				layoutTexture.DrawRectangle(room.Area, Color.white);
 			}
+			Debug.Log(room.Area + " " + room.Connectedness + " " + room.Type);
 		}
 
 		Array.ForEach(level.Hallways, hallway => layoutTexture.DrawLine(hallway.StartPositionAbsolute, hallway.EndPositionAbsolute, Color.white));
@@ -255,6 +292,16 @@ public class LayoutGeneratorRooms : MonoBehaviour
 		else
 		{
 			return new Room(roomCandidateRect.x, roomCandidateRect.y, roomTemplate.LayoutTexture);
+		}
+	}
+	void AddHallwaysToRooms()
+	{
+		foreach (Room room in level.Rooms)
+		{
+			Hallway[] hallwaysStartingAtRoom = Array.FindAll(level.Hallways, hallway => hallway.StartRoom == room);
+			Array.ForEach(hallwaysStartingAtRoom, hallway => room.AddHallway(hallway));
+			Hallway[] hallwaysEndingAtRoom = Array.FindAll(level.Hallways, hallway => hallway.EndRoom == room);
+			Array.ForEach(hallwaysEndingAtRoom, hallway => room.AddHallway(hallway));
 		}
 	}
 

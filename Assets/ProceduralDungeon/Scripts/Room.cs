@@ -18,16 +18,25 @@ public enum RoomType
 
 public class Room 
 {
-    private RectInt area;
+	List<Hallway> hallways;
+	public int Connectedness => hallways.Count;
+
+	private RectInt area;
 	public RectInt Area  { get { return area; } }
+	public RoomType Type { get; set; } = RoomType.Default;
 	public Texture2D LayoutTexture { get; }
 
-	public Room( RectInt area) { this.area = area; }
+	public Room( RectInt area) 
+	{
+		hallways = new List<Hallway>();
+		this.area = area; 
+	}
 
 	internal Room(int x, int y, Texture2D layoutTexture)
 	{
 		area = new RectInt(x, y, layoutTexture.width, layoutTexture.height);
 		LayoutTexture = layoutTexture;
+		hallways = new List<Hallway>();
 	}
 	internal List<Hallway> CalculateAllPossibleDoorways(int width, int height, int minDistanceFromEdge)
 	{
@@ -95,6 +104,10 @@ public class Room
 	{
 		Dictionary<Color, HallwayDirection> colorToDirectionMap = HallwayDirectionExtension.GetColorToDirectionMap();
 		return colorToDirectionMap.TryGetValue(color, out HallwayDirection direction) ? direction : HallwayDirection.Undefined;
+	}
+	public void AddHallway(Hallway selectedHallway)
+	{
+		hallways.Add(selectedHallway);
 	}
 
 }
