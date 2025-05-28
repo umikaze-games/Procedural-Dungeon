@@ -23,6 +23,7 @@ public class Room
 
 	private RectInt area;
 	public RectInt Area  { get { return area; } }
+	public RoomType Type { get; set; } = RoomType.Default;
 	public Texture2D LayoutTexture { get; }
 
 	public Room( RectInt area) 

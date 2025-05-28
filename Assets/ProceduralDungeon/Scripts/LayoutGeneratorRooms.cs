@@ -36,13 +36,27 @@ public class LayoutGeneratorRooms : MonoBehaviour
         Hallway selectedEntryway = openDoorways[random.Next(0, openDoorways.Count)];
         AddRooms();
 		AddHallwaysToRooms();
+		AssignRoomTypes();
 		DrawLayout(selectedEntryway, roomRect);
-		int startRoomIndex = random.Next(0, level.Rooms.Length);
-		Room randomStartRoom = level.Rooms[startRoomIndex];
-		level.PlayerStartRoom = randomStartRoom;
-
 		return level;
-
+	}
+	private void AssignRoomTypes()
+	{
+		List<Room> borderRooms = level.Rooms.Where(room => room.Connectedness == 1).ToList();
+		if (borderRooms.Count < 2)
+		{
+			return;
+		}
+		int startRoomIndex = random.Next(0, borderRooms.Count);
+		Room randomStartRoom = borderRooms[startRoomIndex];
+		level.PlayerStartRoom = randomStartRoom;
+		randomStartRoom.Type = RoomType.Start;
+		borderRooms.Remove(randomStartRoom);
+		Room farthestRoom = borderRooms
+			.OrderByDescending(room => Vector2.Distance(randomStartRoom.Area.center, room.Area.center))
+			.FirstOrDefault();
+		farthestRoom.Type = RoomType.Exit;
+		borderRooms.Remove(farthestRoom);
 	}
 
 	[ContextMenu("Generate new Seed")]
@@ -102,6 +116,7 @@ public class LayoutGeneratorRooms : MonoBehaviour
 			{
 				layoutTexture.DrawRectangle(room.Area, Color.white);
 			}
+			Debug.Log(room.Area + " " + room.Connectedness + " " + room.Type);
 		}
 
 		Array.ForEach(level.Hallways, hallway => layoutTexture.DrawLine(hallway.StartPositionAbsolute, hallway.EndPositionAbsolute, Color.white));

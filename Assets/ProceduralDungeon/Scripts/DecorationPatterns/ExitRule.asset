@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be96c26be0325e8459e5b137dcae5b99, type: 3}
+  m_Name: ExitRule
+  m_EditorClassIdentifier: 
+  roomTypes: 4
+  prefabRotation: 0
+  prefab: {fileID: 919132149155446097, guid: 789570352fb27c748b6278c34718ec9f, type: 3}
+  placement:
+    array: 02000000
+    width: 1
+    height: 1
+  fill:
+    array: 03000000
+    width: 1
+    height: 1
+  centerHorizontally: 1
+  centerVertically: 1
