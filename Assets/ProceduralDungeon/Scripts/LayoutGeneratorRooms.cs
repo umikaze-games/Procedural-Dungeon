@@ -35,7 +35,8 @@ public class LayoutGeneratorRooms : MonoBehaviour
 
         Hallway selectedEntryway = openDoorways[random.Next(0, openDoorways.Count)];
         AddRooms();
-        DrawLayout(selectedEntryway, roomRect);
+		AddHallwaysToRooms();
+		DrawLayout(selectedEntryway, roomRect);
 		int startRoomIndex = random.Next(0, level.Rooms.Length);
 		Room randomStartRoom = level.Rooms[startRoomIndex];
 		level.PlayerStartRoom = randomStartRoom;
@@ -255,6 +256,16 @@ public class LayoutGeneratorRooms : MonoBehaviour
 		else
 		{
 			return new Room(roomCandidateRect.x, roomCandidateRect.y, roomTemplate.LayoutTexture);
+		}
+	}
+	void AddHallwaysToRooms()
+	{
+		foreach (Room room in level.Rooms)
+		{
+			Hallway[] hallwaysStartingAtRoom = Array.FindAll(level.Hallways, hallway => hallway.StartRoom == room);
+			Array.ForEach(hallwaysStartingAtRoom, hallway => room.AddHallway(hallway));
+			Hallway[] hallwaysEndingAtRoom = Array.FindAll(level.Hallways, hallway => hallway.EndRoom == room);
+			Array.ForEach(hallwaysEndingAtRoom, hallway => room.AddHallway(hallway));
 		}
 	}
 
